@@ -63,7 +63,7 @@ class Achat(models.Model):
     quantite = models.PositiveIntegerField()
     prix_unitaire_ht = models.DecimalField(max_digits=10, decimal_places=2)
     date_achat = models.DateField()
-    montant_total_ht = models.DecimalField(max_digits=10, decimal_places=2, editable=False)
+    montant_total_ht = models.DecimalField(max_digits=10, decimal_places=2)
 
     TYPE_PAIEMENT_CHOICES = (
         ('total', 'Paiement total'),

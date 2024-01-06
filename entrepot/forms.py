@@ -30,7 +30,7 @@ class EmployeForm(forms.ModelForm):
 class AchatForm(forms.ModelForm):
     class Meta:
         model = Achat
-        fields = ['fournisseur', 'produit', 'quantite', 'prix_unitaire_ht', 'date_achat', 'montant_total_ht' ,'type_paiement']
+        fields = ['fournisseur', 'produit', 'quantite', 'prix_unitaire_ht', 'date_achat' ,'type_paiement']
 
 class ReglementForm(forms.ModelForm):
     class Meta:

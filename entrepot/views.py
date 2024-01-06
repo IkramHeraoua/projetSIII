@@ -248,14 +248,14 @@ def acheter_matiere(request):
 
             # Mise à jour du solde fournisseur
             fournisseur = achat.fournisseur
-            montant_restant = achat.montant_total_ht - achat.montant_verse
+            #montant_restant = achat.montant_total_ht - achat.montant_verse
 
             if achat.type_paiement == 'total':
                 # Paiement total, le solde du fournisseur ne change pas
                 pass
             elif achat.type_paiement == 'partiel':
                 # Paiement partiel, le solde du fournisseur augmente de la quantité * prix unitaire
-                fournisseur.solde += achat.quantite * achat.prix_unitaire_ht
+                fournisseur.solde += (achat.quantite * achat.prix_unitaire_ht)
 
             fournisseur.save()
 
