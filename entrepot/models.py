@@ -97,9 +97,10 @@ class Transfert(models.Model):
 
 
 class Vente(models.Model):
+    credit_client = models.DecimalField(max_digits=10, decimal_places=2, default=0)
     client = models.ForeignKey(Client, on_delete=models.CASCADE)
     produit = models.ForeignKey(Produit, on_delete=models.CASCADE)
-    centre = models.ForeignKey(Centre, on_delete=models.CASCADE, null = True)
+    #centre
     quantite = models.PositiveIntegerField()
     prix_unitaire_vente = models.DecimalField(max_digits=10, decimal_places=2)
     montant_vente = models.DecimalField(max_digits=10, decimal_places=2, editable=False)
@@ -110,10 +111,13 @@ class Vente(models.Model):
         self.montant_vente = self.quantite * self.prix_unitaire_vente
         super(Vente, self).save(*args, **kwargs)
         if self.montant_encaisse < self.montant_vente:
-            self.client.credit -= self.montant_encaisse
+            self.client.credit += (self.montant_vente - self.montant_encaisse)
             self.client.save()
-                 
 
+    def get_credit_client(self):
+        if self.client:
+            return self.client.credit
+        return 0
 class ActiviteCentre(models.Model):
     centre = models.ForeignKey(Centre, on_delete=models.CASCADE)
     date_activite = models.DateField()
