@@ -57,9 +57,15 @@ class TransfertFilterForm(forms.Form):
 
 
 class VenteForm(forms.ModelForm):
+    credit_client = forms.DecimalField(
+        label='Crédit du client',
+        widget=forms.NumberInput(attrs={'readonly': 'readonly', 'id': 'id_credit_client'}),
+    )
+
     class Meta:
         model = Vente
-        fields = ['client', 'produit', 'centre', 'quantite', 'prix_unitaire_vente', 'date_vente', 'montant_encaisse']
+        fields = ['client', 'produit', 'quantite', 'prix_unitaire_vente', 'date_vente', 'montant_encaisse']
+        
 
 
 
