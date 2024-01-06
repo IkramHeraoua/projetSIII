@@ -1,0 +1,14 @@
+<!-- templates/entrepot/reglement_form.html -->
+{% extends 'base.html' %}
+
+{% block title %}Régler Fournisseur{% endblock %}
+
+{% block content %}
+  <h2>Régler Fournisseur</h2>
+  <form method="post" action="{% url 'regler_fournisseur' %}">
+    {% csrf_token %}
+    {{ reglement_form.as_p }}
+    <button type="submit">Régler</button>
+  </form>
+  <a href="{% url 'liste_reglements' %}">Retour à la liste des règlements</a>
+{% endblock %}

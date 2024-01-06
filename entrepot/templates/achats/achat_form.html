@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+{% block content %}
+<body>
+    <title>Achat de Matière </title>
+    <h1>Achat de Matière</h1>
+    <form method="post">
+        {% csrf_token %}
+        <div>
+            {{ achat_form.fournisseur.label_tag }} {{ achat_form.fournisseur }}
+        </div>
+        <div>
+            {{ achat_form.produit.label_tag }} {{ achat_form.produit }}
+        </div>
+        <div>
+            <label for="id_prix_unitaire_ht">Prix Unitaire HT:</label>
+            <input type="number" id="id_prix_unitaire_ht" name="prix_unitaire_ht" step="0.01">
+        </div>
+        <div>
+            <label for="id_quantite">Quantité:</label>
+            <input type="number" id="id_quantite" name="quantite">
+        </div>
+        <div>
+            {{ achat_form.date_achat.label_tag }} {{ achat_form.date_achat }}
+        </div>
+        <div>
+            <label for="id_montant_total_ht">Montant Total HT:</label>
+            <input type="text" id="id_montant_total_ht" name="montant_total_ht" readonly>
+        </div>
+        <input type="submit" value="Acheter">
+    </form>
+
+    <!-- Autres éléments de la page ou redirection, selon vos besoins -->
+
+    <a href="{% url 'liste_achats' %}">Retour à la liste des achats</a>
+
+    <script>
+        // Fonction pour calculer le montant total en fonction du prix unitaire et de la quantité
+        function calculerMontantTotal() {
+            const prixUnitaire = parseFloat(document.getElementById('id_prix_unitaire_ht').value);
+            const quantite = parseInt(document.getElementById('id_quantite').value);
+            const montantTotal = prixUnitaire * quantite;
+            document.getElementById('id_montant_total_ht').value = montantTotal.toFixed(2);
+        }
+
+        // Écouteurs d'événements pour déclencher le calcul lorsque les valeurs changent
+        document.getElementById('id_prix_unitaire_ht').addEventListener('input', calculerMontantTotal);
+        document.getElementById('id_quantite').addEventListener('input', calculerMontantTotal);
+    </script>
+</body>
+{% endblock %}
+</html>
+

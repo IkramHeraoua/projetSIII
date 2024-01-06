@@ -1,0 +1,26 @@
+<!-- templates/produit/list_produits.html -->
+{% extends 'base.html' %}
+
+{% block content %}
+  <h2>Liste des Fournisseurs</h2>
+  <table border="1px" class="table table-dark table-striped-columns">
+    <thead>
+      {% load static %}
+      <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}"> 
+     
+    </thead>
+    <tbody>
+      {% for fournisseur in fournisseurs %}
+        <tr>
+          <td>{{fournisseur.code}}</td>
+          <td>{{ fournisseur.nom }} {{ fournisseur.prenom }} </td>
+          <td> {{ fournisseur.solde }} </td>
+          <td><a href="{% url 'FourEdit' fournisseur.id %}" class="btn btn-primary btn-sm">Modifier</a></td>
+          <td><a href="{% url 'FourDelete' fournisseur.id %}" class="btn btn-danger btn-sm">Supprimer</a></td>
+          </td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  <a href="{% url 'FourCreate' %}" class="btn btn-success">Ajouter un fournisseur</a>
+{% endblock %}

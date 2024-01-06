@@ -1,0 +1,28 @@
+<h3>Résultats de la requête</h3>
+
+{% if produits_filtres %}
+  <table border="1px">
+    <thead>
+      <tr>
+        <th>Code</th>
+        <th>Désignation</th>
+        <th>Quantité en Stock</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for produit in produits_filtres %}
+        <tr>
+          <td>{{ produit.code }}</td>
+          <td>{{ produit.designation }}</td>
+          <td>{{ produit.quantite_en_stock }}</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% else %}
+  <p>Aucun produit trouvé.</p>
+{% endif %}
+
+
+  <p>Valeur totale du stock : {{ valeur_totale_stock }}</p>
+{% endblock %}

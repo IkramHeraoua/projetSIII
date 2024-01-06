@@ -1,0 +1,25 @@
+
+{% extends 'base.html' %}
+
+{% block content %}
+  <h2>Liste des Employes</h2>
+  <table border="1px" class="table table-dark table-striped-columns">
+    <thead>
+      {% load static %}
+      <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}"> 
+     
+    </thead>
+    <tbody>
+      {% for employe in employes %}
+        <tr>
+          <td>{{employe.code}}</td>
+          <td>{{ employe.nom }} {{ employe.prenom }}</td>
+          <td><a href="{% url 'EmpEdit' employe.id %}" class="btn btn-primary btn-sm">Modifier</a></td>
+          <td><a href="{% url 'EmpDelete' employe.id %}" class="btn btn-danger btn-sm">Supprimer</a></td>
+          </td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  <a href="{% url 'EmpCreate' %}" class="btn btn-success">Ajouter un employe</a>
+{% endblock %}

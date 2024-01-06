@@ -1,0 +1,10 @@
+{% extends 'base.html' %} 
+
+{% block content %}
+<h2>Enregistrement d'une Vente pour le Centre {{ centre.designation }}</h2>
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn btn-primary">Enregistrer la Vente</button>
+</form>
+{% endblock %}

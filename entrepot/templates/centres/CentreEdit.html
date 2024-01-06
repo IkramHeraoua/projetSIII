@@ -1,0 +1,13 @@
+{% include 'base.html' %}
+
+{% block title %}Modifier le Centre{% endblock %}
+
+{% block content %}
+  <h2>Modifier le centre</h2>
+  <form method="POST">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Modifier</button>
+  </form>
+  <a href="{% url 'CentreList' %}">Retour à la liste des centres</a>
+{% endblock %}

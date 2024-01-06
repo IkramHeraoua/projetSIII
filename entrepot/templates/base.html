@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Stock Management{% endblock %}</title>
+    <!-- Liens vers les feuilles de style -->
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <a class="navbar-brand" href="{% url 'base' %}">Stock Management</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="{% url 'ProdList' %}">Liste des Produits</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'ClientList' %}">Liste des Clients</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'CentreList' %}">Liste des Centres</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'FourList' %}">Liste des Fournisseurs</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'EmpList' %}">Liste des Employes</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'acheter_matiere' %}">Acheter Matière</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'liste_achats' %}">Liste des Achats</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'regler_fournisseur' %}">Régler Fournisseur</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'liste_reglements' %}">Liste des Règlements</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'fiche_journal_achats' %}">Fiche Journal des Achats</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'transfert_matiere' %}">Transfert de Matières</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'vente_matiere' %}">Vente de Matières</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'etat_stock' %}">Etat du Stock</a>
+                    </li>
+
+                </ul>
+            </div>
+        </nav>
+    </header>
+    <div id="content" class="container mt-4">
+        {% block content %}
+        <h2>Bienvenue dans le système de gestion des stocks</h2>
+        <p>Ceci est la page d'accueil. Vous pouvez naviguer vers d'autres sections à partir de la barre de navigation ci-dessus.</p>
+        {% endblock %}
+    </div>
+    <footer>
+        <!-- Informations de pied de page -->
+        <p>&copy; 2023 Stock Management System</p>
+    </footer>
+    <!-- Scripts JavaScript -->
+    <script src="{% static 'js/script.js' %}"></script>
+</body>
+</html>

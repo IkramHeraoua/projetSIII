@@ -1,0 +1,15 @@
+<!-- templates/ventes/vente_form.html -->
+{% extends 'base.html' %}
+
+{% block title %}Saisie de Vente{% endblock %}
+
+{% block content %}
+  <h2>Saisie de Vente</h2>
+  <form method="post" action="{% url 'vente_matiere' %}">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Enregistrer la Vente</button>
+  </form>
+
+  <a href="{% url 'fiche_journal_ventes' %}" class="btn btn-primary btn-sm">Aller a la fiche journal des ventes</a>
+{% endblock %}

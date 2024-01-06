@@ -1,0 +1,13 @@
+{% include 'base.html' %}
+
+{% block title %}Supprimer le Centre{% endblock %}
+
+{% block content %}
+  <h2>Supprimer le Produit</h2>
+  <p>Êtes-vous sûr de vouloir supprimer le produit "{{ centre.designation }}" ?</p>
+  <form method="POST">
+    {% csrf_token %}
+    <button type="submit">Confirmer la suppression</button>
+  </form>
+  <a href="{% url 'CentreList' %}">Annuler</a>
+{% endblock %}

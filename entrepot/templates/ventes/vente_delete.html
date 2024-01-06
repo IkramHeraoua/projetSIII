@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block title %}Supprimer une Vente{% endblock %}
+
+{% block content %}
+  <h2>Supprimer une Vente</h2>
+  <p>Êtes-vous sûr de vouloir supprimer cette vente?</p>
+  <form method="post">
+    {% csrf_token %}
+    <button type="submit">Confirmer la suppression</button>
+  </form>
+  <a href="{% url 'fiche_journal_ventes' %}">Retour à la fiche journal des ventes</a>
+{% endblock %}

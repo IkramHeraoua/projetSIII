@@ -1,0 +1,58 @@
+<!-- templates/entrepot/fiche_journal_achats.html -->
+{% extends 'base.html' %}
+
+{% block title %}Fiche Journal des Achats{% endblock %}
+
+{% block content %}
+  <h2>Fiche Journal des Achats</h2>
+
+  <form method="get" action="{% url 'fiche_journal_achats' %}">
+    <label for="fournisseur">Fournisseur :</label>
+    <select name="fournisseur" id="fournisseur">
+        <option value="" selected>Tous les fournisseurs</option>
+        {% for fournisseur in fournisseurs %}
+            <option value="{{ fournisseur.id }}">{{ fournisseur.nom }}</option>
+        {% endfor %}
+    </select>
+
+    <label for="date_debut">Date début :</label>
+    <input type="date" name="date_debut" id="date_debut">
+
+    <label for="date_fin">Date fin :</label>
+    <input type="date" name="date_fin" id="date_fin">
+
+    <button type="submit">Appliquer les filtres</button>
+  </form>
+    
+  <table border="1px" class="table table-dark table-striped-columns">
+    <thead>
+      {% load static %}
+      <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}"> 
+      <tr>
+        <th>Fournisseur</th>
+        <th>Produit</th>
+        <th>Quantité</th>
+        <th>Prix unitaire HT</th>
+        <th>Date d'achat</th>
+        <th>Montant total HT</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for achat in achats %}
+        <tr>
+          <td>{{ achat.fournisseur }}</td>
+          <td>{{ achat.produit }}</td>
+          <td>{{ achat.quantite }}</td>
+          <td>{{ achat.prix_unitaire_ht }}</td>
+          <td>{{ achat.date_achat }}</td>
+          <td>{{ achat.montant_total_ht }}</td>
+          <td><a href="{% url 'modify_achat' achat.id %}" class="btn btn-primary btn-sm">Modifier</a>
+          <a href="{% url 'delete_achat' achat.id %}" class="btn btn-danger btn-sm">Supprimer</a></td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+  <p>Montant total : {{ montant_total }}</p>
+{% endblock %}

@@ -1,0 +1,49 @@
+<!-- Dans fiche_journal_transferts.html -->
+{% extends 'base.html' %}
+
+{% block title %}Fiche Journal des Achats{% endblock %}
+
+{% block content %}
+<h2>Fiche Journal des Transferts</h2>
+<form method="get" action="{% url 'fiche_journal_transferts' %}">
+    <label for="centre">Centre :</label>
+    <select name="centre" id="centre">
+        <option value="" selected>Tous les centres</option>
+        {% for centre in centres %}
+            <option value="{{ centre.id }}">{{ centre.code }}</option>
+        {% endfor %}
+    </select>
+
+    <label for="date_debut">Date début :</label>
+    <input type="date" name="date_debut" id="date_debut">
+
+    <label for="date_fin">Date fin :</label>
+    <input type="date" name="date_fin" id="date_fin">
+
+    <button type="submit">Appliquer les filtres</button>
+  </form>
+
+  <table border="1px" class="table table-dark table-striped-columns">
+    <thead>
+      {% load static %}
+      <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}"> 
+      <tr>
+        <th>Produit</th>
+        <th>Quantité</th>
+        <th>Cout de transfert</th>
+        <th>Date de transfert</th>
+       
+      </tr>
+    </thead>
+    <tbody>
+    {% for transfert in transferts %}
+    <tr>
+        <td>{{ transfert.produit }}</td>
+        <td>{{ transfert.quantite }} </td>
+        <td>{{ transfert.cout_transfert }} </td>
+        <td>{{ transfert.date_transfert }}</td>
+    </tr>
+    {% endfor %}
+</table>
+
+{% endblock %}

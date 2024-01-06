@@ -1,0 +1,13 @@
+{% include 'base.html' %}
+
+{% block title %}Supprimer le Fournisseur{% endblock %}
+
+{% block content %}
+  <h2>Supprimer le Fournisseur</h2>
+  <p>Êtes-vous sûr de vouloir supprimer le Fournisseur {{ fournisseur.nom }} {{ fournisseur.prenom }} ?</p>
+  <form method="POST">
+    {% csrf_token %}
+    <button type="submit">Confirmer la suppression</button>
+  </form>
+  <a href="{% url 'FourList' %}">Annuler</a>
+{% endblock %}

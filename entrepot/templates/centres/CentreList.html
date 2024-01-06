@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h2>Liste des Centres</h2>
+  <table border="1px" class="table table-dark table-striped-columns">
+    <thead>
+      {% load static %}
+      <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}"> 
+     
+    </thead>
+    <tbody>
+      {% for centre in centres %}
+        <tr>
+          <td>{{centre.code}}</td>
+          <td>{{ centre.designation }}</td>
+          <td><a href="{% url 'CentreEdit' centre.id %}" class="btn btn-primary btn-sm">Modifier</a></td>
+          <td><a href="{% url 'CentreDelete' centre.id %}" class="btn btn-danger btn-sm">Supprimer</a></td>
+          <td><a href="{% url 'enregistrer_vente_centre' centre.id %}" class="btn btn-primary">Enregistrer une Vente</a></td>
+          <td><a href="{% url 'details_activite_centre' centre.id %}" class="btn btn-primary">Details centre</a></td>
+
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  <a href="{% url 'CentreCreate' %}" class="btn btn-success">Ajouter un Centre</a>
+{% endblock %}

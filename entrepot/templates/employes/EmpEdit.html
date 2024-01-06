@@ -1,0 +1,13 @@
+{% include 'base.html' %}
+
+{% block title %}Modifier le Employe{% endblock %}
+
+{% block content %}
+  <h2>Modifier le Employe</h2>
+  <form method="POST">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Modifier</button>
+  </form>
+  <a href="{% url 'EmpList' %}">Retour à la liste des employes</a>
+{% endblock %}

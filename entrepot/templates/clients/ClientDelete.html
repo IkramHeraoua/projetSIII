@@ -1,0 +1,13 @@
+{% include 'base.html' %}
+
+{% block title %}Supprimer le client{% endblock %}
+
+{% block content %}
+  <h2>Supprimer le client</h2>
+  <p>Êtes-vous sûr de vouloir supprimer le client {{ client.nom }} {{ client.prenom }} ?</p>
+  <form method="POST">
+    {% csrf_token %}
+    <button type="submit">Confirmer la suppression</button>
+  </form>
+  <a href="{% url 'ClientList' %}">Annuler</a>
+{% endblock %}

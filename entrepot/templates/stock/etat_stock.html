@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+
+{% block title %}État du Stock{% endblock %}
+
+{% block content %}
+  <h2>État du Stock</h2>
+
+  <form method="get" action="{% url 'etat_stock' %}">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn btn-primary btn-sm">Appliquer les filtres</button>
+    <a href="#" class="btn btn-primary btn-sm">Afficher en HTML</a>
+    <a href="{% url 'etat_stock_pdf' %}" class="btn btn-primary btn-sm">Télécharger en PDF</a>
+  </form>
+
+{% if produits_filtres %}
+<table border="1px" class="table table-dark table-striped-columns">
+    <thead>
+      {% load static %}
+      <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}"> 
+      <tr>
+        <th>Code</th>
+        <th>Désignation</th>
+        <th>Quantité en Stock</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for produit in produits_filtres %}
+        <tr>
+          <td>{{ produit.code }}</td>
+          <td>{{ produit.designation }}</td>
+          <td>{{ produit.quantite_en_stock }}</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% else %}
+  <p>Aucun produit trouvé.</p>
+{% endif %}
+
+
+  <p>Valeur totale du stock : {{ valeur_totale_stock }}</p>
+{% endblock %}
+
+

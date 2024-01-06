@@ -1,0 +1,14 @@
+<!-- templates/achats/fiche_journal_achats_edit.html -->
+{% extends 'base.html' %}
+
+{% block title %}Modifier un Achat{% endblock %}
+
+{% block content %}
+  <h2>Modifier un Achat</h2>
+  <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Modifier</button>
+  </form>
+  <a href="{% url 'fiche_journal_achats' %}">Retour à la fiche journal d'achats</a>
+{% endblock %}

@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Paiement de crédit</title>
+</head>
+<body>
+    <h1>Paiement de crédit pour {{ client.nom }} {{ client.prenom }}</h1>
+    
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <input type="submit" value="Payer">
+    </form>
+
+    <a href="{% url 'ClientList' %}">Retour</a>
+</body>
+</html>

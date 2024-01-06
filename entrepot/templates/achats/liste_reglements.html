@@ -1,0 +1,14 @@
+<!-- templates/entrepot/liste_reglements.html -->
+{% extends 'base.html' %}
+
+{% block title %}Liste des Règlements{% endblock %}
+
+{% block content %}
+  <h2>Liste des Règlements</h2>
+  <ul>
+    {% for reglement in reglements %}
+      <li>{{ reglement.fournisseur }} - {{ reglement.montant }} - {{ reglement.date_reglement }}</li>
+    {% endfor %}
+  </ul>
+  <!-- Ajoutez des fonctionnalités supplémentaires au besoin -->
+{% endblock %}

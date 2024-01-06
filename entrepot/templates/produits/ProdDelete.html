@@ -1,0 +1,13 @@
+{% include 'base.html' %}
+
+{% block title %}Supprimer le Produit{% endblock %}
+
+{% block content %}
+  <h2>Supprimer le Produit</h2>
+  <p>Êtes-vous sûr de vouloir supprimer le produit "{{ produit.designation }}" ?</p>
+  <form method="POST">
+    {% csrf_token %}
+    <button type="submit">Confirmer la suppression</button>
+  </form>
+  <a href="{% url 'ProdList' %}">Annuler</a>
+{% endblock %}

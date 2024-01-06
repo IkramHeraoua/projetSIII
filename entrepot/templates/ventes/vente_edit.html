@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block title %}Modifier une Vente{% endblock %}
+
+{% block content %}
+  <h2>Modifier une Vente</h2>
+  <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Modifier</button>
+  </form>
+  <a href="{% url 'fiche_journal_ventes' %}">Retour à la fiche journal des ventes</a>
+{% endblock %}
