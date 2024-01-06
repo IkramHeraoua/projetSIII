@@ -22,3 +22,6 @@ admin.site.register(Vente)
 
 from .models import Achat
 admin.site.register(Achat)
+
+from .models import Reglement
+admin.site.register(Reglement)

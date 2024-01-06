@@ -243,19 +243,14 @@ def acheter_matiere(request):
             
             # Calculer le montant total en fonction de la quantité et du prix unitaire
             achat.montant_total_ht = achat.quantite * achat.prix_unitaire_ht
-            
             achat.save()
 
             # Mise à jour du solde fournisseur
             fournisseur = achat.fournisseur
-            #montant_restant = achat.montant_total_ht - achat.montant_verse
 
-            if achat.type_paiement == 'total':
-                # Paiement total, le solde du fournisseur ne change pas
-                pass
-            elif achat.type_paiement == 'partiel':
-                # Paiement partiel, le solde du fournisseur augmente de la quantité * prix unitaire
-                fournisseur.solde += (achat.quantite * achat.prix_unitaire_ht)
+            if achat.type_paiement == 'partiel':
+                # Paiement total, soustrayez le montant total HT du solde du fournisseur
+                fournisseur.solde += achat.montant_total_ht
 
             fournisseur.save()
 
@@ -290,9 +285,11 @@ def regler_fournisseur(request):
 
     return render(request, 'achats/regler_fournisseur.html', {'reglement_form': reglement_form})
 
+
 def liste_reglements(request):
     reglements = Reglement.objects.all()
     return render(request, 'achats/liste_reglements.html', {'reglements': reglements})
+
 
 def apply_filters_achats(request, queryset):
     fournisseur = request.GET.get('fournisseur')

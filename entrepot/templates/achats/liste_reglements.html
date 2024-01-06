@@ -7,7 +7,7 @@
   <h2>Liste des Règlements</h2>
   <ul>
     {% for reglement in reglements %}
-      <li>{{ reglement.fournisseur }} - {{ reglement.montant }} - {{ reglement.date_reglement }}</li>
+      <li>{{ reglement.fournisseur }} - {{ reglement.produit }}- {{ reglement.montant }} - {{ reglement.date_reglement }}</li>
     {% endfor %}
   </ul>
   <!-- Ajoutez des fonctionnalités supplémentaires au besoin -->

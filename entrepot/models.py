@@ -71,8 +71,7 @@ class Achat(models.Model):
     )
     type_paiement = models.CharField(
         max_length=15,
-        choices=TYPE_PAIEMENT_CHOICES,
-        default='total', 
+        choices=TYPE_PAIEMENT_CHOICES, 
     )
     #montant_verse = models.DecimalField(max_digits=10, decimal_places=2, default=0)
     
@@ -80,6 +79,7 @@ class Achat(models.Model):
 
 class Reglement(models.Model):
     fournisseur = models.ForeignKey(Fournisseur, on_delete=models.CASCADE)
+    produit = models.ForeignKey(Produit, on_delete=models.CASCADE)
     montant = models.DecimalField(max_digits=10, decimal_places=2)
     date_reglement = models.DateField()
     def __str__(self):
@@ -100,7 +100,7 @@ class Vente(models.Model):
     credit_client = models.DecimalField(max_digits=10, decimal_places=2, default=0)
     client = models.ForeignKey(Client, on_delete=models.CASCADE)
     produit = models.ForeignKey(Produit, on_delete=models.CASCADE)
-    #centre
+    #centre = models.ForeignKey(Centre, on_delete=models.CASCADE)
     quantite = models.PositiveIntegerField()
     prix_unitaire_vente = models.DecimalField(max_digits=10, decimal_places=2)
     montant_vente = models.DecimalField(max_digits=10, decimal_places=2, editable=False)
@@ -118,6 +118,8 @@ class Vente(models.Model):
         if self.client:
             return self.client.credit
         return 0
+    
+
 class ActiviteCentre(models.Model):
     centre = models.ForeignKey(Centre, on_delete=models.CASCADE)
     date_activite = models.DateField()

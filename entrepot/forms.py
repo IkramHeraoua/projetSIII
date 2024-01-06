@@ -35,7 +35,7 @@ class AchatForm(forms.ModelForm):
 class ReglementForm(forms.ModelForm):
     class Meta:
         model = Reglement
-        fields = ['fournisseur', 'montant', 'date_reglement']
+        fields = ['fournisseur', 'produit' , 'montant', 'date_reglement']
 
 
 class FicheJournalAchatsFilterForm(forms.Form):
