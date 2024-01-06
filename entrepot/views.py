@@ -1,7 +1,7 @@
 from math import sumprod
 from pyexpat.errors import messages
 from urllib import response
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse
 from .models import Produit, Client, Fournisseur, Centre, Employe, Achat, Reglement, ReglementClient, Transfert, Vente
@@ -401,6 +401,14 @@ def vente_matiere(request):
         if form.is_valid():
             vente = form.save(commit=False)
             vente.montant_vente = vente.prix_unitaire_vente * vente.quantite
+
+            # Récupérer le crédit du client sélectionné
+            client_credit = Client.objects.get(pk=vente.client.id).credit
+
+            # Mettez à jour le crédit du client
+            montant_encaisse = vente.montant_encaisse or 0
+            reste_a_payer = vente.montant_vente - montant_encaisse
+            vente.credit_client = reste_a_payer + client_credit
             vente.save()
 
             return redirect('fiche_journal_ventes')
@@ -408,6 +416,12 @@ def vente_matiere(request):
         form = VenteForm()
 
     return render(request, 'ventes/vente_form.html', {'form': form})
+
+def get_client_credit(request):
+    if request.method == 'POST':
+        client_id = request.POST.get('client_id')
+        client = get_object_or_404(Client, pk=client_id)
+        return JsonResponse({'credit': client.credit})
 
 def fiche_journal_ventes(request):
     ventes = Vente.objects.all()
