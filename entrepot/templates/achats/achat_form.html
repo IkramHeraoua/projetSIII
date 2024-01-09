@@ -23,11 +23,11 @@
             {{ achat_form.date_achat.label_tag }} {{ achat_form.date_achat }}
         </div>
         <div>
-            <label for="id_montant_total_ht">Montant Total HTttt:</label>
+            <label for="id_montant_total_ht">Montant Total HT:</label>
             <input type="text" id="id_montant_total_ht" name="montant_total_ht" readonly>
         </div>
         <div>
-            {{ achat_form.type_paiement}}
+            {{ achat_form.type_paiement.label_tag }} {{ achat_form.type_paiement}}
         </div>
         <input type="submit" value="Acheter">
     </form>
@@ -52,4 +52,3 @@
 </body>
 {% endblock %}
 </html>
-

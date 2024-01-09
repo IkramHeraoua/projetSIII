@@ -194,13 +194,6 @@ def delete_centre(request,centre_id):
 
 def list_fournisseurs(request):
     fournisseurs = Fournisseur.objects.all()
-    # Par défaut, affichez tous les clients (supprimés et non supprimés)
-    show_deleted = request.GET.get('show_deleted', False)
-
-    if not show_deleted:
-        # Si vous ne souhaitez pas afficher les clients supprimés, filtrez-les
-        fournisseurs = fournisseurs.filter(isDeleted = False)
-
     return render(request, 'fournisseurs/FourList.html', {'fournisseurs': fournisseurs})
 
 def create_fournisseur(request):
@@ -228,9 +221,7 @@ def delete_fournisseur(request,fournisseur_id):
     fournisseur=Fournisseur.objects.get(id=fournisseur_id)
     if request.method == 'POST':
         
-        #fournisseur.delete()
-        fournisseur.isDeleted = 1
-        fournisseur.save()
+        fournisseur.delete()
         return redirect('FourList')
     else:
         return render(request, 'fournisseurs/FourDelete.html', {'fournisseur': fournisseur})
@@ -275,11 +266,17 @@ def regler_fournisseur(request):
     if request.method == 'POST':
         reglement_form = ReglementForm(request.POST)
         if reglement_form.is_valid():
+
+            #achat = reglement.achat 
+
+            #prix_produit = achat.montant_total_ht
+            #reglement.prix_produit = prix_produit
+
             reglement = reglement_form.save(commit=False)
-            reglement.fournisseur.solde -= reglement.montant
-            reglement.fournisseur.save()
+            reglement.achat.fournisseur.solde -= reglement.montant
+            reglement.achat.fournisseur.save()
             reglement.save()
-            return redirect('liste_reglements')
+        return redirect('liste_reglements')
     else:
         reglement_form = ReglementForm()
 
@@ -342,6 +339,7 @@ def delete_achat(request, achat_id):
 
     return render(request, 'achats/achats_delete.html', {'achat': achat})
 
+
 def transfert_matiere(request):
     if request.method == 'POST':
         form = TransfertForm(request.POST)
@@ -361,6 +359,7 @@ def transfert_matiere(request):
         form = TransfertForm()
 
     return render(request, 'transferts/transfert_form.html', {'form': form})
+
 
 def apply_filters_transferts(request, queryset):
     centre = request.GET.get('centre')
@@ -526,8 +525,11 @@ from django.shortcuts import render, get_object_or_404, redirect
 from .models import Centre, Vente
 from .forms import VenteForm  # Assurez-vous de créer un formulaire Django pour les ventes
 
+
 def enregistrer_vente_centre(request, centre_id):
     centre = get_object_or_404(Centre, pk=centre_id)
+    
+    credit_client = 0  # Initialiser la variable credit_client à une valeur par défaut
     
     if request.method == 'POST':
         form = VenteForm(request.POST)
@@ -535,8 +537,11 @@ def enregistrer_vente_centre(request, centre_id):
         if form.is_valid():
             vente = form.save(commit=False)
             
+            # Définir le client associé à la vente
+            vente.client = form.cleaned_data['client']
+            
             # Calcul du montant total avant d'enregistrer la vente
-            vente.montant_total = vente.prix_unitaire_vente * vente.quantite
+            vente.montant_vente = vente.prix_unitaire_vente * vente.quantite
             
             # Indiquer le montant versé
             vente.montant_encaisse = form.cleaned_data['montant_encaisse']
@@ -547,9 +552,9 @@ def enregistrer_vente_centre(request, centre_id):
     
     else:
         form = VenteForm()
-    
-    return render(request, 'activiteCentre/enregistrer_vente_centre.html', {'form': form, 'centre': centre})
 
+    
+    return render(request, 'activiteCentre/enregistrer_vente_centre.html', {'form': form, 'centre': centre, 'credit_client': credit_client})
 
 def paiement_credit_client(request, client_id):
     client = get_object_or_404(Client, pk=client_id)
@@ -566,13 +571,16 @@ def paiement_credit_client(request, client_id):
 
 
 
+
 def details_activite_centre(request, centre_id):
     # Récupérez le centre spécifique en fonction de l'ID
     centre = get_object_or_404(Centre, id=centre_id)
     
     # Récupérez toutes les ventes associées à ce centre
-    ventes = Vente.objects.filter(centre=centre_id)
+    ventes = Vente.objects.all()  # Vous obtenez toutes les ventes ici
     
-    return render(request, 'activiteCentre/details_activite_centre.html', {'ventes': ventes, 'centre': centre})
-
+    # Récupérez tous les règlements clients associés à ce centre
+    reglements = ReglementClient.objects.all()  # Vous obtenez tous les règlements ici
+    
+    return render(request, 'activiteCentre/details_activite_centre.html', {'ventes': ventes, 'reglements': reglements, 'centre': centre})
 

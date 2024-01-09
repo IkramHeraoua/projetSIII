@@ -12,7 +12,7 @@
     <tbody>
       {% for produit in produits %}
         <tr>
-          <td>{{produit.id}}</td>
+          <td>{{produit.code}}</td>
           <td>{{ produit.designation }}</td>
           <td><a href="{% url 'ProdEdit' produit.id %}" class="btn btn-primary btn-sm">Modifier</a></td>
           <td><a href="{% url 'ProdDelete' produit.id %}" class="btn btn-danger btn-sm">Supprimer</a></td>

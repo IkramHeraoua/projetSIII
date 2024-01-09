@@ -5,6 +5,26 @@
 <form method="post">
     {% csrf_token %}
     {{ form.as_p }}
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script>
+      $(document).ready(function () {
+    $('#id_client').change(function () {
+        var client_id = $(this).val();
+        $.ajax({
+            type: 'POST',
+            url: '/get_client_credit/',
+            data: {
+                'client_id': client_id,
+                'csrfmiddlewaretoken': $('input[name=csrfmiddlewaretoken]').val(),
+            },
+            dataType: 'json',
+            success: function (data) {
+                $('#id_credit_client').val(data.credit);
+            }
+        });
+    });
+});
+    </script>
     <button type="submit" class="btn btn-primary">Enregistrer la Vente</button>
 </form>
 {% endblock %}

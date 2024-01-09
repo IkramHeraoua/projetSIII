@@ -30,7 +30,7 @@ class Fournisseur(models.Model):
     adresse = models.TextField()
     telephone = models.CharField(max_length=15)
     solde = models.DecimalField(max_digits=10, decimal_places=2)
-    isDeleted = models.BooleanField(default= False )
+    #isDeleted = models.BooleanField(default= False )
     def __str__(self):
         return str(self.nom)
     
@@ -74,33 +74,14 @@ class Achat(models.Model):
         choices=TYPE_PAIEMENT_CHOICES, 
     )
     #montant_verse = models.DecimalField(max_digits=10, decimal_places=2, default=0)
-    
-
-
-class Reglement(models.Model):
-    fournisseur = models.ForeignKey(Fournisseur, on_delete=models.CASCADE)
-    produit = models.ForeignKey(Produit, on_delete=models.CASCADE)
-    montant = models.DecimalField(max_digits=10, decimal_places=2)
-    date_reglement = models.DateField()
     def __str__(self):
-        return f"Règlement de {self.montant} pour {self.fournisseur} le {self.date_reglement}"
+        return self.produit.designation
     
-
-
-class Transfert(models.Model):
-    centre = models.ForeignKey(Centre, on_delete=models.CASCADE)
-    produit = models.ForeignKey(Produit, on_delete=models.CASCADE)
-    achat = models.ForeignKey(Achat, on_delete=models.CASCADE, blank=True, null=True)
-    quantite = models.PositiveIntegerField()
-    date_transfert = models.DateField()
-    cout_transfert = models.DecimalField(max_digits=10, decimal_places=2, editable=False)
-
-
 class Vente(models.Model):
     credit_client = models.DecimalField(max_digits=10, decimal_places=2, default=0)
     client = models.ForeignKey(Client, on_delete=models.CASCADE)
     produit = models.ForeignKey(Produit, on_delete=models.CASCADE)
-    #centre = models.ForeignKey(Centre, on_delete=models.CASCADE)
+    centre = models.ForeignKey(Centre, on_delete=models.CASCADE, null=True )
     quantite = models.PositiveIntegerField()
     prix_unitaire_vente = models.DecimalField(max_digits=10, decimal_places=2)
     montant_vente = models.DecimalField(max_digits=10, decimal_places=2, editable=False)
@@ -118,6 +99,32 @@ class Vente(models.Model):
         if self.client:
             return self.client.credit
         return 0
+
+    def __str__(self):
+        return self.produit.designation
+
+class Reglement(models.Model):
+    #fournisseur = models.ForeignKey(Fournisseur, on_delete=models.CASCADE)
+    #produit = models.ForeignKey(Produit, on_delete=models.CASCADE, null= True )
+    achat = models.ForeignKey(Achat, on_delete=models.CASCADE, null=True)
+    vente = models.ForeignKey(Vente, on_delete=models.CASCADE, null=True)
+    montant = models.DecimalField(max_digits=10, decimal_places=2)
+    #prix_produit = models.DecimalField(max_digits=10, decimal_places=2, null=True)
+    date_reglement = models.DateField()
+    def __str__(self):
+        return f"Règlement de {self.montant} le {self.date_reglement}"
+    
+
+class Transfert(models.Model):
+    centre = models.ForeignKey(Centre, on_delete=models.CASCADE)
+    produit = models.ForeignKey(Produit, on_delete=models.CASCADE)
+    achat = models.ForeignKey(Achat, on_delete=models.CASCADE, blank=True, null=True)
+    quantite = models.PositiveIntegerField()
+    date_transfert = models.DateField()
+    cout_transfert = models.DecimalField(max_digits=10, decimal_places=2, editable=False)
+
+
+
     
 
 class ActiviteCentre(models.Model):
