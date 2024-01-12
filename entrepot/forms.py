@@ -35,8 +35,12 @@ class AchatForm(forms.ModelForm):
 class ReglementForm(forms.ModelForm):
     class Meta:
         model = Reglement
-        fields = ['achat' ,'vente', 'montant', 'date_reglement']
+        fields = ['achat' , 'montant', 'date_reglement']
 
+class ReglementVenteForm(forms.ModelForm):
+    class Meta:
+        model = Reglement
+        fields = ['vente', 'montant', 'date_reglement']
 
 class FicheJournalAchatsFilterForm(forms.Form):
     fournisseur = forms.ModelChoiceField(queryset=Fournisseur.objects.all(), required=False, empty_label="Tous les fournisseurs")    
@@ -64,7 +68,7 @@ class VenteForm(forms.ModelForm):
 
     class Meta:
         model = Vente
-        fields = ['client', 'produit', 'quantite', 'prix_unitaire_vente', 'date_vente', 'montant_encaisse']
+        fields = ['client', 'produit', 'quantite', 'prix_unitaire_vente', 'date_vente', 'type_paiement']
         
 
 

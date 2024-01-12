@@ -88,6 +88,16 @@ class Vente(models.Model):
     date_vente = models.DateField()
     montant_encaisse = models.DecimalField(max_digits=10, decimal_places=2, default=0)
     
+    TYPE_PAIEMENT_CHOICES = (
+        ('total', 'Paiement total'),
+        ('partiel', 'Paiement partiel'),
+    )
+    type_paiement = models.CharField(
+        max_length=15,
+        choices=TYPE_PAIEMENT_CHOICES, 
+        default = 'Paiement total',
+    )
+
     def save(self, *args, **kwargs):
         self.montant_vente = self.quantite * self.prix_unitaire_vente
         super(Vente, self).save(*args, **kwargs)

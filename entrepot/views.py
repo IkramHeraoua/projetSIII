@@ -5,7 +5,7 @@ from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse
 from .models import Produit, Client, Fournisseur, Centre, Employe, Achat, Reglement, ReglementClient, Transfert, Vente
-from .forms import  FilterForm, PaiementCreditForm, ProduitForm, ClientForm, FournisseurForm, CentreForm, EmployeForm, AchatForm, ReglementForm, TransfertFilterForm, TransfertForm, VenteForm
+from .forms import  FilterForm, PaiementCreditForm, ProduitForm, ClientForm, FournisseurForm, CentreForm, EmployeForm, AchatForm, ReglementForm, ReglementVenteForm, TransfertFilterForm, TransfertForm, VenteForm
 
 
 def base_view(request):
@@ -401,11 +401,12 @@ def vente_matiere(request):
             # Récupérer le crédit du client sélectionné
             client_credit = Client.objects.get(pk=vente.client.id).credit
 
-            # Mettez à jour le crédit du client
-            montant_encaisse = vente.montant_encaisse or 0
-            reste_a_payer = vente.montant_vente - montant_encaisse
-            vente.credit_client = reste_a_payer + client_credit
-            vente.save()
+            if vente.type_paiement == 'partiel': 
+                # Mettez à jour le crédit du client
+                #montant_encaisse = vente.montant_encaisse or 0
+                #reste_a_payer = vente.montant_vente - montant_encaisse
+                vente.credit_client = vente.montant_vente + client_credit
+                vente.save()
 
             return redirect('fiche_journal_ventes')
     else:
@@ -584,3 +585,23 @@ def details_activite_centre(request, centre_id):
     
     return render(request, 'activiteCentre/details_activite_centre.html', {'ventes': ventes, 'reglements': reglements, 'centre': centre})
 
+
+def regler_client(request):
+    if request.method == 'POST':
+        reglementVente_form = ReglementVenteForm(request.POST)
+        if reglementVente_form.is_valid():
+
+            #achat = reglement.achat 
+
+            #prix_produit = achat.montant_total_ht
+            #reglement.prix_produit = prix_produit
+
+            reglement = reglementVente_form.save(commit=False)
+            reglement.vente.client.credit -= reglement.montant
+            reglement.vente.client.save()
+            reglement.save()
+        return redirect('liste_reglements')
+    else:
+        reglementVente_form = ReglementVenteForm()
+
+    return render(request, 'ventes/regler_client.html', {'reglementVente_form': reglementVente_form})
