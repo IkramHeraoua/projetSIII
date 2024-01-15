@@ -1,12 +1,14 @@
 from math import sumprod
 from pyexpat.errors import messages
+from time import timezone
 from urllib import response
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse
-from .models import Produit, Client, Fournisseur, Centre, Employe, Achat, Reglement, ReglementClient, Transfert, Vente
+from django.views import View
+from .models import Absence, Avance, Produit, Client, Fournisseur, Centre, Employe, Achat, Reglement, ReglementClient, Transfert, Vente
 from .forms import  FilterForm, PaiementCreditForm, ProduitForm, ClientForm, FournisseurForm, CentreForm, EmployeForm, AchatForm, ReglementForm, ReglementVenteForm, TransfertFilterForm, TransfertForm, VenteForm
-
+from django.db.models import Sum
 
 def base_view(request):
     return render(request, 'base.html')
@@ -58,14 +60,35 @@ def delete_produit(request,produit_id):
 
 
 
-def list_employes(request):
-    employes = Employe.objects.all()
-    show_deleted = request.GET.get('show_deleted', False)
+from django.shortcuts import render, get_object_or_404
+from .models import Employe
+from django.utils import timezone
 
+from django.shortcuts import render, get_object_or_404
+from .models import Employe
+from django.utils import timezone
+
+def list_employes(request):
+    show_deleted = request.GET.get('show_deleted', False)
+    employes = Employe.objects.all()
+    
+    # Calcul automatique du salaire à la fin de chaque mois pour chaque employé
+    
+    employes_with_salaire = []  # Liste pour stocker les informations de chaque employé avec le salaire mensuel
     if not show_deleted:
-        # Si vous ne souhaitez pas afficher les clients supprimés, filtrez-les
-        employes = employes.filter(isDeleted = False)
-    return render(request, 'employes/EmpList.html', {'employes': employes, 'show_deleted': show_deleted})
+
+    #if not show_deleted:
+        # Si vous ne souhaitez pas afficher les employés supprimés, filtrez-les
+        employes = employes.filter(isDeleted=False)
+    
+    
+        for employe in employes:
+            salaire_mois = employe.salaire_jour * 30
+            employes_with_salaire.append({'employe': employe, 'salaire_mois': salaire_mois})
+
+    print(f"List: {employes_with_salaire}")
+    
+    return render(request, 'employes/EmpList.html', {'employes':   employes_with_salaire, 'show_deleted': show_deleted})
 
 def create_employe(request):
     if request.method == 'POST':
@@ -605,3 +628,27 @@ def regler_client(request):
         reglementVente_form = ReglementVenteForm()
 
     return render(request, 'ventes/regler_client.html', {'reglementVente_form': reglementVente_form})
+
+
+def details_employe(request, employe_id):
+    
+    employe = get_object_or_404(Employe, id=employe_id)
+
+    # Logique pour récupérer les absences et les avances récentes (à ajuster selon vos besoins)
+    absences_recentes = Absence.objects.filter(date_absence__gte=timezone.now() - timezone.timedelta(days=30))
+    avances_recentes = Avance.objects.filter(date_demande__gte=timezone.now() - timezone.timedelta(days=30))
+
+    # Calcul automatique du salaire à la fin de chaque mois
+    mois_actuel = timezone.now().month
+    jours_du_mois = timezone.now().replace(month=mois_actuel+1, day=1) - timezone.now().replace(day=1)
+    salaire_total = employe.annotate(salaire_mois=Sum('salaire_jour') * jours_du_mois.days).filter(isDeleted=False)
+
+        # Logique pour passer ces données à votre template
+    context = {
+        'employe': employe,
+        'absences_recentes': absences_recentes,
+        'avances_recentes': avances_recentes,
+        'salaire_total': salaire_total,
+    }
+    
+    return render(request,'EmpDetails.html', context )

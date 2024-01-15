@@ -1,0 +1,32 @@
+<!-- votre_template.html -->
+
+<body>
+{% extends 'base.html' %}
+
+{% block content %}
+
+    <h1>Liste des Employés</h1>
+
+    <ul>
+        {% for employe in employes %}
+            <li>{{ employe.nom }} {{ employe.prenom }} - Salaire total du mois : {{ employe.salaire_mois }}</li>
+        {% endfor %}
+    </ul>
+
+    <h2>Absences récentes</h2>
+    <ul>
+            <li>{{ absence.employe }} était absent le {{ absence.date_absence }}</li>
+        {% endfor %}
+    </ul>
+
+    <h2>Avances récentes</h2>
+    <ul>
+            <li>{{ avance.employe }} a demandé une avance de {{ avance.montant }} le {{ avance.date_demande }}</li>
+        {% endfor %}
+    </ul>
+
+    <h2>Salaire Total</h2>
+    <p>Salaire total pour tous les employés ce mois-ci : {{ salaire_total }}</p>
+{% endblock %}
+</body>
+

@@ -46,7 +46,6 @@ class FicheJournalAchatsFilterForm(forms.Form):
     fournisseur = forms.ModelChoiceField(queryset=Fournisseur.objects.all(), required=False, empty_label="Tous les fournisseurs")    
 
 
-
 class TransfertForm(forms.ModelForm):
     class Meta:
         model = Transfert
@@ -111,3 +110,4 @@ class ReglementClientForm(forms.ModelForm):
     class Meta:
         model = ReglementClient
         fields = ['client', 'montant_reglement']
+

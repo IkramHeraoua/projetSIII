@@ -22,7 +22,6 @@ class Client(models.Model):
         return str(self.nom)
 
     
-
 class Fournisseur(models.Model):
     code = models.CharField(max_length=20)
     nom = models.CharField(max_length=100)
@@ -53,8 +52,7 @@ class Employe(models.Model):
     centre = models.ForeignKey(Centre, on_delete=models.CASCADE)
     isDeleted = models.BooleanField(default= False )
     def __str__(self):
-        return str(self.nom)
-    
+        return str(self.nom)    
     
 
 class Achat(models.Model):
@@ -76,7 +74,8 @@ class Achat(models.Model):
     #montant_verse = models.DecimalField(max_digits=10, decimal_places=2, default=0)
     def __str__(self):
         return self.produit.designation
-    
+
+  
 class Vente(models.Model):
     credit_client = models.DecimalField(max_digits=10, decimal_places=2, default=0)
     client = models.ForeignKey(Client, on_delete=models.CASCADE)
@@ -113,6 +112,7 @@ class Vente(models.Model):
     def __str__(self):
         return self.produit.designation
 
+
 class Reglement(models.Model):
     #fournisseur = models.ForeignKey(Fournisseur, on_delete=models.CASCADE)
     #produit = models.ForeignKey(Produit, on_delete=models.CASCADE, null= True )
@@ -134,9 +134,6 @@ class Transfert(models.Model):
     cout_transfert = models.DecimalField(max_digits=10, decimal_places=2, editable=False)
 
 
-
-    
-
 class ActiviteCentre(models.Model):
     centre = models.ForeignKey(Centre, on_delete=models.CASCADE)
     date_activite = models.DateField()
@@ -146,8 +143,26 @@ class ActiviteCentre(models.Model):
     # autres champs nécessaires...
 
 
-
 class ReglementClient(models.Model):
     client = models.ForeignKey(Client, on_delete=models.CASCADE)
     montant_reglement = models.DecimalField(max_digits=10, decimal_places=2)
     date_reglement = models.DateField()
+
+
+class Absence(models.Model):
+    employe = models.ForeignKey(Employe, on_delete=models.CASCADE)
+    date_absence = models.DateField()
+    motif = models.TextField()
+
+    def __str__(self):
+        return f"{self.employe} - Absence le {self.date_absence}"
+
+
+class Avance(models.Model):
+    employe = models.ForeignKey(Employe, on_delete=models.CASCADE)
+    montant = models.DecimalField(max_digits=10, decimal_places=2)
+    date_demande = models.DateField()
+    motif = models.TextField()
+
+    def __str__(self):
+        return f"{self.employe} - Avance de {self.montant} le {self.date_demande}"

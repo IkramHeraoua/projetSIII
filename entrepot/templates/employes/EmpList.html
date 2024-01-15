@@ -1,8 +1,9 @@
-
 {% extends 'base.html' %}
+
 
 {% block content %}
   <h2>Liste des Employes</h2>
+{{employes}}
   <table border="1px" class="table table-dark table-striped-columns">
     <thead>
       {% load static %}
@@ -12,14 +13,21 @@
     <tbody>
       {% for employe in employes %}
         <tr>
-          <td>{{employe.code}}</td>
-          <td>{{ employe.nom }} {{ employe.prenom }}</td>
-          <td><a href="{% url 'EmpEdit' employe.id %}" class="btn btn-primary btn-sm">Modifier</a></td>
-          <td><a href="{% url 'EmpDelete' employe.id %}" class="btn btn-danger btn-sm">Supprimer</a></td>
+        
+          <td>{{employe.employe.code}}</td>
+          <td>{{ employe.employe.nom }} {{ employe.employe.prenom }}</td>
+            {%if employe.salaire_mois %}
+            <td>{{employe.salaire_mois}}</td>
+            {% endif %}
+          <td><a href="{% url 'EmpEdit' employe.employe.id %}" class="btn btn-primary btn-sm">Modifier</a></td>
+          <td><a href="{% url 'EmpDelete' employe.employe.id %}" class="btn btn-danger btn-sm">Supprimer</a></td>
+          <td><a href="{% url 'EmpDetails' employe.employe.id %}" class="btn btn-danger btn-sm">Details</a></td>
           </td>
         </tr>
+        
       {% endfor %}
     </tbody>
   </table>
   <a href="{% url 'EmpCreate' %}" class="btn btn-success">Ajouter un employe</a>
-{% endblock %}
+{% endblock %} </td>
+           

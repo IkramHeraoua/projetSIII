@@ -25,6 +25,7 @@ urlpatterns = [
     path('EmpList/',views.list_employes, name='EmpList'),
     path('EmpEdit/<int:employe_id>/',views.update_employe, name='EmpEdit'),
     path('EmpDelete/<int:employe_id>/',views.delete_employe, name='EmpDelete'),
+    path('EmpDetails/<int:employe_id>/',views.details_employe, name='EmpDetails'),
     path('EmpCreate/',views.create_employe, name='EmpCreate'),
 
      #fournisseur
