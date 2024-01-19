@@ -1,0 +1,58 @@
+<!-- templates/ventes/fiche_journal_ventes.html -->
+{% extends 'base.html' %}
+
+{% block title %}Fiche Journal des Ventes{% endblock %}
+
+{% block content %}
+  <h2>Fiche Journal des Ventes</h2>
+  <form method="post" action="{% url 'fiche_journal_ventes' %}">
+    {% csrf_token %}
+    <label for="client">Client :</label>
+    <select name="client" id="client">
+      <option value="" selected>Tous les clients</option>
+      {% for vente in ventes %}
+        <option value="{{ vente.client.id }}">{{ vente.client.nom }}</option>
+      {% endfor %}
+    </select>
+
+    <label for="date_debut">Date début :</label>
+    <input type="date" name="date_debut" id="date_debut">
+
+    <label for="date_fin">Date fin :</label>
+    <input type="date" name="date_fin" id="date_fin">
+
+    <button type="submit">Appliquer les filtres</button>
+  </form>
+
+  <table border="1px" class="table table-dark table-striped-columns">
+    <thead>
+      {% load static %}
+      <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+      <tr>
+        <th>Client</th>
+        <th>Produit</th>
+        <th>Quantité</th>
+        <th>Prix Unitaire de Vente</th>
+        <th>Montant de la Vente</th>
+        <th>Date de Vente</th>
+        <th>Montant Encaissé</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for vente in ventes %}
+        <tr>
+          <td>{{ vente.client.nom }}</td>
+          <td>{{ vente.produit.designation }}</td>
+          <td>{{ vente.quantite }}</td>
+          <td>{{ vente.prix_unitaire_vente }}</td>
+          <td>{{ vente.montant_vente }}</td>
+          <td>{{ vente.date_vente }}</td>
+          <td>{{ vente.montant_encaisse }}</td>
+          <td><a href="{% url 'modify_vente' vente.id %}" class="btn btn-primary btn-sm">Modifier</a>
+            <a href="{% url 'delete_vente' vente.id %}" class="btn btn-danger btn-sm">Supprimer</a></td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endblock %}

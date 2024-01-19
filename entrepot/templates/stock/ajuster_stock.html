@@ -1,0 +1,8 @@
+<!-- ajuster_stock.html -->
+
+<h2>Ajuster le stock</h2>
+<form method="post" action="{% url 'ajuster_stock' %}">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Ajuster le stock</button>
+</form>

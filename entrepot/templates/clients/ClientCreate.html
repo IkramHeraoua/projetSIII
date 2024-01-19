@@ -1,0 +1,13 @@
+{% include 'base.html' %}
+
+{% block title %}Ajouter un Client{% endblock %}
+
+{% block content %}
+  <h2>Ajouter un Client</h2>
+  <form method="POST">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Ajouter</button>
+  </form>
+  <a href="{% url 'ClientList' %}">Retour à la liste des clients</a>
+{% endblock %}

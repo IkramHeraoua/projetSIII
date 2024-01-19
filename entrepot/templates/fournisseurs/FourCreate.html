@@ -1,0 +1,13 @@
+{% include 'base.html' %}
+
+{% block title %}Ajouter un Fournisseur{% endblock %}
+
+{% block content %}
+  <h2>Ajouter un Fournisseur</h2>
+  <form method="POST">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Ajouter</button>
+  </form>
+  <a href="{% url 'FourList' %}">Retour à la liste des fournisseurs</a>
+{% endblock %}

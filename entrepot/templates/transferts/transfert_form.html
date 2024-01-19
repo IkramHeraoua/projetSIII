@@ -1,0 +1,13 @@
+<!-- Dans transfert_form.html -->
+{% extends 'base.html' %}
+
+{% block title %}Acheter Matière{% endblock %}
+
+{% block content %}
+<form method="post" action="{% url 'transfert_matiere' %}">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Transférer</button>
+</form>
+<a href="{% url 'fiche_journal_transferts' %}" class="btn btn-primary btn-sm">Aller a la fiche journal des transferts</a>
+{% endblock %}

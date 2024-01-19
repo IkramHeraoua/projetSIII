@@ -1,0 +1,18 @@
+<!-- details_activite_centre.html -->
+{% extends 'base.html' %}
+
+
+{% block content %}
+
+<h1>Détails de l'activité du centre {{ centre.code }}</h1>
+<h2>PV de vente</h2>
+<ul>
+    {% for vente in ventes %}
+        <li>{{ vente.date_vente }} - {{ vente.client }} - {{ vente.produit }} - {{ vente.quantite }}  - {{ vente.montant_vente }}</li>
+    {% empty %}
+        <li>Aucune vente n'a été trouvée pour ce centre.</li>
+    {% endfor %}
+</ul>
+<a href="{% url 'CentreList' %}">Retour à la liste des centres</a>
+
+{% endblock %}

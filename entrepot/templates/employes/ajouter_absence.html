@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+<head>
+    <title>Ajouter une absence</title>
+</head>
+<body>
+    <h1>Ajouter une absence</h1>
+    <form method="post" action="{% url 'ajouter_absence' %}">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Enregistrer</button>
+    </form>
+</body>
+{% endblock %}

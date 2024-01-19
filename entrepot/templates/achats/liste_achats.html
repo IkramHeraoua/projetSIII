@@ -1,0 +1,14 @@
+<!-- templates/entrepot/liste_achats.html -->
+{% extends 'base.html' %}
+
+{% block title %}Liste des Achats{% endblock %}
+
+{% block content %}
+  <h2>Liste des Achats</h2>
+  <ul>
+    {% for achat in achats %}
+      <li>{{ achat.produit }} - {{ achat.quantite }} - {{ achat.montant_total_ht }} - {{ achat.date_achat }}</li>
+    {% endfor %}
+  </ul>
+  <!-- Ajoutez des fonctionnalités supplémentaires au besoin -->
+{% endblock %}

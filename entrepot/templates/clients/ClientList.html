@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h2>Liste des Clients</h2>
+  <table border="1px" class="table table-dark table-striped-columns">
+    <thead>
+      {% load static %}
+      <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}"> 
+     
+    </thead>
+    <tbody>
+      {% for client in clients %}
+        <tr>
+          <td>{{client.code}}</td>
+          <td>{{client.nom}} {{client.prenom}}</td>
+          <td>{{client.credit}}</td>
+          <td><a href="{% url 'ClientEdit' client.id %}" class="btn btn-primary btn-sm">Modifier</a></td>
+          <td><a href="{% url 'ClientDelete' client.id %}" class="btn btn-danger btn-sm">Supprimer</a></td>
+          </td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  <a href="{% url 'ClientCreate' %}" class="btn btn-success">Ajouter un client</a>
+{% endblock %}

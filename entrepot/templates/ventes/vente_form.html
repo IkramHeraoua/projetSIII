@@ -1,0 +1,39 @@
+<!-- templates/ventes/vente_form.html -->
+{% extends 'base.html' %}
+
+{% block title %}Saisie de Vente{% endblock %}
+
+{% block content %}
+  <h2>Saisie de Vente</h2>
+  <form method="post" action="{% url 'vente_matiere' %}">
+    {% csrf_token %}
+    {{ form.as_p }}
+    
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script>
+      $(document).ready(function () {
+    $('#id_client').change(function () {
+        var client_id = $(this).val();
+        $.ajax({
+            type: 'POST',
+            url: '/get_client_credit/',
+            data: {
+                'client_id': client_id,
+                'csrfmiddlewaretoken': $('input[name=csrfmiddlewaretoken]').val(),
+            },
+            dataType: 'json',
+            success: function (data) {
+                $('#id_credit_client').val(data.credit);
+            }
+        });
+    });
+});
+    </script>
+
+    <button type="submit">Enregistrer la Vente</button>
+  </form>
+
+  <a href="{% url 'fiche_journal_ventes' %}" class="btn btn-primary btn-sm">Aller a la fiche journal des ventes</a>
+
+  
+{% endblock %}

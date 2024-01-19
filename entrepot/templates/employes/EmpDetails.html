@@ -1,0 +1,33 @@
+<!-- votre_template.html -->
+
+{% extends 'base.html' %}
+
+{% block content %}
+<body>
+    <h1>Détails de l'employé {{ employe.nom }}</h1>
+
+    <p>Nom: {{ employe.nom }}</p>
+    <p>Poste: {{ employe.poste }}</p>
+    
+    <!-- Ajout de la ligne pour afficher le salaire -->
+    <p>Salaire: {{ employe.salaire_jour }}</p>
+
+    <h2>Absences récentes</h2>
+    <ul>
+        {% for absence in absences_recentes %}
+            <li>{{ absence.date_absence }} - {{ absence.motif }}</li>
+        {% endfor %}
+    </ul>
+
+    <h2>Avances récentes</h2>
+    <ul>
+        {% for avance in avances_recentes %}
+            <li>{{ avance.date_demande }} - Montant: {{ avance.montant }}</li>
+        {% endfor %}
+    </ul>
+
+    <h2>Salaire total</h2>
+    <p>Le salaire total pour le mois en cours est de {{ salaire_total.0.salaire_mois }}.</p>
+    {% endblock %}
+</body>
+

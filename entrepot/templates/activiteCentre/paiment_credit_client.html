@@ -1,0 +1,14 @@
+{% extends 'base.html' %}  <!-- Remplacez 'base.html' par votre template de base -->
+
+{% block content %}
+<h2>Paiement de Crédit pour le Client {{ client.nom }}</h2>
+<form method="post">
+    {% csrf_token %}
+    <!-- Ici, ajoutez les champs nécessaires pour le paiement du crédit, comme le montant -->
+    <div>
+        <label for="montant">Montant:</label>
+        <input type="number" id="montant" name="montant" min="0" step="any" required>
+    </div>
+    <button type="submit" class="btn btn-primary">Effectuer le Paiement</button>
+</form>
+{% endblock %}
